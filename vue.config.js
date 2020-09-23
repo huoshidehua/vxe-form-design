@@ -7,20 +7,21 @@ const resolve = dir => {
 
 
 module.exports = {
-	// Project deployment base
-	// By default we assume your app will be deployed at the root of a domain,
-	// e.g. https://www.my-app.com/
-	// If your app is deployed at a sub-path, you will need to specify that
-	// sub-path here. For example, if your app is deployed at
-	// https://www.foobar.com/my-app/
-	// then change this to '/my-app/'
-	publicPath: process.env.NODE_ENV === 'production' ?
+    // Project deployment base
+    // By default we assume your app will be deployed at the root of a domain,
+    // e.g. https://www.my-app.com/
+    // If your app is deployed at a sub-path, you will need to specify that
+    // sub-path here. For example, if your app is deployed at
+    // https://www.foobar.com/my-app/
+    // then change this to '/my-app/'
+    publicPath: process.env.NODE_ENV === 'production' ?
 		'/Users/HiWin10/Desktop/vxeFormDesign/docs' : '/',
-	// tweak internal webpack configuration.
-	// see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-	// 如果你不需要使用eslint，把lintOnSave设为false即可
-	// lintOnSave: false,.use('iview')
-	chainWebpack: config => {
+
+    // tweak internal webpack configuration.
+    // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
+    // 如果你不需要使用eslint，把lintOnSave设为false即可
+    // lintOnSave: false,.use('iview')
+    chainWebpack: config => {
 		config.module
 			.rule('vue')
 			.use('iview')
@@ -36,11 +37,18 @@ module.exports = {
 			.end()
 
 	},
-	// 打包时不生成.map文件
-	productionSourceMap: false,
-	// 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
-	// devServer: {
-	//   proxy: 'localhost:3000'
-	// }
 
+    // 打包时不生成.map文件
+    // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
+    // devServer: {
+    //   proxy: 'localhost:3000'
+    // }
+    productionSourceMap: false,
+
+    baseUrl: undefined,
+    outputDir: 'docs',
+    assetsDir: undefined,
+    runtimeCompiler: undefined,
+    parallel: undefined,
+    css: undefined
 }
