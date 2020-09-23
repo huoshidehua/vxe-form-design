@@ -15,7 +15,7 @@ module.exports = {
     // https://www.foobar.com/my-app/
     // then change this to '/my-app/ /Users/HiWin10/Desktop/vxeFormDesign'
     publicPath: process.env.NODE_ENV === 'production' ?
-		'/docs' : '/',
+		'' : '/',
 	outputDir:'docs',
     // tweak internal webpack configuration.
     // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
