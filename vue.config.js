@@ -16,7 +16,7 @@ module.exports = {
     // then change this to '/my-app/'
     publicPath: process.env.NODE_ENV === 'production' ?
 		'/Users/HiWin10/Desktop/vxeFormDesign/docs' : '/',
-
+	outputDir:'docs',
     // tweak internal webpack configuration.
     // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
     // 如果你不需要使用eslint，把lintOnSave设为false即可
@@ -44,11 +44,4 @@ module.exports = {
     //   proxy: 'localhost:3000'
     // }
     productionSourceMap: false,
-
-    baseUrl: undefined,
-    outputDir: 'docs',
-    assetsDir: undefined,
-    runtimeCompiler: undefined,
-    parallel: undefined,
-    css: undefined
 }
