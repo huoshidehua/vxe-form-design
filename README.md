@@ -1,7 +1,7 @@
 # vxe-form-design
 
 ## 使用地址
-[Github在线设计vxe form 风格表单](https://huoshidehua.github.io/vxe-form-design/)
+[Github在线设计vxe form 风格表单](https://huoshidehua.github.io/vxe-form-design/)  
 [Gitee 在线设计vxe form 风格表单](https://henxakill.gitee.io/vxe-form-design/)
 
 ## Project setup
