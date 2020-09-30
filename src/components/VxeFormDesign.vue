@@ -18,29 +18,34 @@
 					<br />
 					<Button @click="newRow" type="success" long>换行</Button>
 				</Sider>
-				<Content :style="{padding: '24px', minHeight: '280px', background: '#fff',float:'left'}">
-					<template v-for="(formRow,row) in formData">
-						<div style="display: flex;" :key="row">
-							<template v-for="(formItem,col) in formRow">
-								<!-- eslint-disable -->
-								<VxeFormItem :ref="'item'+row+col" :key="col" :row="row" :col="col" :tag="formItem.tag" :content.sync="formData[row][col].content"
-								 :field="formItem.field" :title="formItem.title" :span="formItem.span" :tagProps="formItem.tagProps" :tagEvents="formItem.tagEvents"
-								 @remove="removeFormItem(arguments)"></VxeFormItem>
-							</template>
-						</div>
-						<hr />
-					</template>
+				<Content :style="{padding: '0px', minHeight: '280px', background: '#fff',float:'left'}">
+					<Split v-model="split">
+						<!-- 左边 -->
+						<template #left>
+							<div style="padding: 15px 10px 2px 10px;">
+								<template v-for="(formRow,row) in formData">
+									<div style="display: flex;" :key="row">
+										<template v-for="(formItem,col) in formRow">
+											<!-- eslint-disable -->
+											<VxeFormItem :ref="'item'+row+col" :key="col" :row="row" :col="col" :tag="formItem.tag" :content.sync="formData[row][col].content"
+											 :field="formItem.field" :title="formItem.title" :span="formItem.span" :tagProps="formItem.tagProps"
+											 :tagEvents="formItem.tagEvents" @remove="removeFormItem(arguments)"></VxeFormItem>
+										</template>
+									</div>
+									<hr />
+								</template>
+							</div>
+						</template>
+						<!-- 右边 -->
+						<template #right>
+							<div style="padding: 15px 10px 2px 10px;">
+								<Input search enter-button placeholder="国际化" v-model="i18nSearch" @on-enter="i18nSearchEvent" />
+								<Table height="800" :columns="columns" :data="i18nSearchData" :show-header="false" stripe size="small"></Table>
+							</div>
+						</template>
+					</Split>
 				</Content>
-				<!-- 右侧sider -->
-				<Sider hide-trigger width=600 :style="{height:winHeight,background:'#fff',borderLeft:'1px black solid',paddingTop:'8px'}">
-					<Input search enter-button placeholder="国际化" v-model="i18nSearch" @on-enter="i18nSearchEvent" />
-					<Table height="800" :columns="columns" :data="i18nSearchData" :show-header="false" stripe size="small"></Table>
-					<!-- <div style="height: 20%;">
-						<List border size="small">
-							<ListItem v-for="(item,index) of i18nSearchData" :key="index">{{item.label}}</ListItem>
-						</List>
-					</div> -->
-				</Sider>
+
 			</Layout>
 		</Layout>
 		<Modal v-model="reviewModel" title="预览" :width="win.outerWidth*0.6" fullscreen>
@@ -64,7 +69,8 @@
 		Header,
 		Modal,
 		Input,
-		Table
+		Table,
+		Split
 	} from 'view-design';
 	import VxeControlData from './VxeControlData/VxeControlData.js'
 	import i18nPropertiesData from './i18nData/i18nData.js'
@@ -82,7 +88,8 @@
 			VxeFormItem,
 			Modal,
 			Input,
-			Table
+			Table,
+			Split
 		},
 		data() {
 			return {
@@ -97,6 +104,7 @@
 				curRow: 0,
 				reviewModel: false,
 				reviewContent: undefined,
+				split: 0.6,
 				columns: [{
 					title: ' ',
 					key: 'label'
