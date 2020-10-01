@@ -5,6 +5,7 @@
 				<Button type="primary" @click="htmlReview">生成html</Button> &nbsp;
 				<Button type="success" @click="formReview">form对象</Button>&nbsp;
 				<Button type="warning" @click="jsonReview">json对象</Button>&nbsp;
+				<Button to="https://github.com/huoshidehua/vxe-form-design" target="_blank" icon="logo-github" type="primary">Github</Button>&nbsp;
 			</Header>
 			<Layout>
 				<Sider hide-trigger :style="{background: '#fff',borderRight:'1px black solid',paddingTop:'4px',display:'flex'}">
