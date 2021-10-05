@@ -1,16 +1,14 @@
 <template>
 	<div id="app">
-		<VxeFormDesign />
+		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-	import VxeFormDesign from './components/VxeFormDesign.vue'
 
 	export default {
 		name: 'App',
 		components: {
-			VxeFormDesign
 		}
 	}
 </script>

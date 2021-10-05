@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<Poptip placement="bottom-start" width="1000" v-model="show" transfer>
-			<Tag type="dot" closable color="success" @on-close="closeEvent" @click.native="clickEvent">{{elContent}}</Tag>
+			<Tag type="dot" closable color="success" @on-close="closeEvent" @click.native="clickEvent">{{elContent}}
+			</Tag>
 			<template #content>
 				<!-- span -->
 				<Input v-model="elSpan">
@@ -119,7 +120,7 @@
 				elProps: {},
 				show: false,
 				/* 展示selected原属属性 */
-				selectType: ["selected", "search", "remote","allbtn"],
+				selectType: ["selected", "search", "remote", "allbtn"],
 				/* 不需要修改title的控件 */
 				titleUnEditField: ["warehouseId", "logisticsId", "br"],
 				/* 表单控件显示备注用 */
@@ -167,7 +168,8 @@
 
 				if (tag == "br") {
 					htmlArr.push("></vxe-form-item>\n")
-					htmlArr.push("<!--********************************************************************************-->\n")
+					htmlArr.push(
+						"<!--********************************************************************************-->\n")
 					return htmlArr.join("");
 				}
 
@@ -215,6 +217,58 @@
 				return htmlArr.join(" ");
 
 			},
+			/**
+			 * @param {Number} index:判断当前是否是第一个（第一个不需要设置标题）
+			 */
+			createHtmlCodeNew(index) {
+				let {
+					elProps,
+					elContent,
+					elSpan,
+					elField,
+					elTitle,
+					tag
+				} = this;
+				let {
+					selectType,
+					tagEvents
+				} = this;
+
+				if (tag == "br") {
+					return "\n";
+				}
+
+				let attr = [];
+				/* 渲染实际元素 */
+				if (tag == 'vxe-input') {
+					attr.push('clearable  size="medium"')
+				}
+
+
+				let propsKeys = Object.keys(elProps),
+					eventKeys = Object.keys(tagEvents);
+				for (var i = 0; i < propsKeys.length; i++) {
+					if (selectType.includes(propsKeys[i])) {
+						if (elProps[propsKeys[i]]) {
+							attr.push(propsKeys[i] + '\n');
+						}
+					} else {
+						attr.push(propsKeys[i] + '="' + elProps[propsKeys[i]] + '"\n');
+					}
+
+				}
+				for (var j = 0; j < eventKeys.length; j++) {
+					attr.push('@' + eventKeys[j] + '="' + tagEvents[eventKeys[j]] + '"\n');
+				}
+
+				let itemHtml = `
+				<!--${elContent}-->
+				${index!=0?'<span class="vxe-form--item-title-label inner-title" style="min-width: 50px;padding: 0 8px" v-text="\''+elTitle+':\'"></span>':''}
+				<${tag} v-model="form.${elField}" ${attr.join(" ")} style="width:${elSpan}%"></${tag}>
+				`;
+				return itemHtml;
+
+			}
 		},
 		mounted() {
 			this.$nextTick(() => {

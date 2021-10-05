@@ -1,20 +1,23 @@
 <template>
 	<div class="layout">
 		<Layout :style="{height:winHeight,borderBottom:'#fff 1px solid'}">
-			<Header>
-				<router-link to="/new">新版</router-link>&nbsp;
+			<Header style="background-color: #E7E9D1;">
+				<router-link to="/old">旧版</router-link>&nbsp;
 				<Button type="primary" @click="htmlReview">生成html</Button> &nbsp;
 				<Button type="success" @click="formReview">form对象</Button>&nbsp;
 				<Button type="warning" @click="jsonReview">json对象</Button>&nbsp;
-				<Button to="https://github.com/huoshidehua/vxe-form-design" target="_blank" icon="logo-github" type="primary">Github</Button>&nbsp;
+				<Button to="https://github.com/huoshidehua/vxe-form-design" target="_blank" icon="logo-github"
+					type="primary">Github</Button>&nbsp;
 			</Header>
 			<Layout>
-				<Sider hide-trigger :style="{background: '#fff',borderRight:'1px black solid',paddingTop:'4px',display:'flex'}">
+				<Sider hide-trigger
+					:style="{background: '#fff',borderRight:'1px black solid',paddingTop:'4px',display:'flex'}">
 					<div class="wrapper">
 						<div class="wrapper-content" v-for="(item,index) in controlList" :key="index">
 							<!-- eslint-disable -->
-							<VxeControl :tag="item.tag" :content="item.content" :field="item.field" :title="item.title" :span="item.span"
-							 :tagProps="item.tagProps" :tagEvents="item.tagEvents" @click="controlClick(arguments)"></VxeControl>
+							<VxeControl :tag="item.tag" :content="item.content" :field="item.field" :title="item.title"
+								:span="item.span" :tagProps="item.tagProps" :tagEvents="item.tagEvents"
+								@click="controlClick(arguments)"></VxeControl>
 						</div>
 					</div>
 					<br />
@@ -39,12 +42,16 @@
 									<hr />
 								</template>
 							</div>
+							<!-- <pre v-html='JSON.stringify(formData, null, 2)'
+								style="text-align: left;height: 500px;overflow-y: auto;"></pre> -->
 						</template>
 						<!-- 右边 -->
 						<template #right>
 							<div style="padding: 15px 10px 2px 10px;">
-								<Input search enter-button placeholder="国际化" v-model="i18nSearch" @on-enter="i18nSearchEvent" />
-								<Table height="800" :columns="columns" :data="i18nSearchData" :show-header="false" stripe size="small"></Table>
+								<Input search enter-button placeholder="国际化" v-model="i18nSearch"
+									@on-enter="i18nSearchEvent" />
+								<Table height="800" :columns="columns" :data="i18nSearchData" :show-header="false"
+									stripe size="small"></Table>
 							</div>
 						</template>
 					</Split>
@@ -53,7 +60,8 @@
 			</Layout>
 		</Layout>
 		<Modal v-model="reviewModel" title="预览" :width="win.outerWidth*0.6" fullscreen>
-			<textarea style="white-space: pre-line;height: 90%;width: 100%;border: 0px #F5F7F9;" contenteditable="true" ref="reviewdiv">{{reviewContent}}</textarea>
+			<pre style="white-space: pre-line;height: 90%;width: 100%;border: 0px #F5F7F9;overflow-y: auto;" contenteditable="true"
+				ref="reviewdiv"><code v-text="reviewContent"></code></pre>
 			<template slot="footer">
 				<Button type="text" @click="reviewModel=false">取消</Button>
 				<Button type="primary" @click="selectReviewContent">选中</Button>
@@ -152,7 +160,7 @@
 
 			},
 			controlClick(args) {
-			
+
 				let rowNum = this.formData.length;
 				if (rowNum == 0) {
 					this.formData.push([]);
@@ -167,6 +175,7 @@
 				this.formData[rowIndex].splice(colIndex, 1);
 				if (this.formData[rowIndex].length == 0) {
 					this.formData.splice(rowIndex, 1);
+					this.curRow = this.curRow - 1;
 				}
 			},
 			/* 新行 */
@@ -182,11 +191,36 @@
 			htmlReview() {
 
 				let html = new Array();
+				html.push(`
+				<style>
+				        .inner-title {
+				            padding: 0px 0em 0px 2px;
+				            min-height: 32px;
+				            line-height: 32px;
+				            display: block;
+				        }
+				</style>
+				`)
 				for (var i = 0; i < this.formData.length; i++) {
+
 					let colItemArr = this.formData[i];
+					let vxeFormItemSlot = [];
 					for (var j = 0; j < colItemArr.length; j++) {
-						html.push(this.$refs["item" + i + j][0].createHtmlCode());
+						vxeFormItemSlot.push(this.$refs["item" + i + j][0].createHtmlCodeNew(j));
 					}
+					let vxeFormItem = 
+					`
+					<!--第${i+1}行-->
+					<vxe-form-item field="${i+1}Line" span="24" title="">
+							<template v-slot="scope">
+								<div style="display: flex">
+										${vxeFormItemSlot.join("\n")}
+								</div>
+							</template>
+					</vxe-form-item>
+					`;
+					html.push(vxeFormItem)
+					
 				}
 				this.reviewContent = html.join("\n");
 				this.reviewModel = true;
